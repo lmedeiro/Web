@@ -1,0 +1,34 @@
+{% extends "master.html"%}
+
+	{% include 'header.html' %}
+  	{% include 'loginDiv.html' %}
+	
+
+{%block body%}
+<br/>
+<br/>
+<br/>
+	<script>
+        function loginButtonClick()
+    {
+        
+        document.getElementsByName("loginButtonInput")[0].value="ON";
+        
+    }
+    </script>
+<div class="loginForm" align="center">
+	<form method ="post">
+        User<input name="userNameLogin" class="rounded" type="text" value="userName" placeholder="Login"> <br/> <br/>
+        Pass<input name="password" class="rounded" type="password" value="password" placeholder="Password"> <br/> <br/>
+   		<input name="loginButtonInput" type="hidden" value="OFF">
+   		<div id=LoginButtons class="LoginButtons" >
+   		
+		
+   		<button class="searchButton spacer" name="loginButton" onclick="loginButtonClick()" >Login</button>
+   		
+    </form>
+    		
+    	</div>
+</div>
+
+{%endblock%}

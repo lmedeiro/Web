@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<title> TrekTip </title>
+	<link href='http://fonts.googleapis.com/css?family=Julius+Sans+One' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/master.css">
+  	
+  	{% block mapScripts %}
+  	{% endblock %}
+
+	
+	
+</head>
+<body>
+{% block header %}
+{% endblock %}
+
+{% block loginDiv %}
+{% endblock %}
+
+	<div class="backgroundImg">
+		{{backgroundImg}}
+	</div>
+	
+<div id="body">
+	
+	<div>
+		
+	</div>
+	
+		{% block map %}
+				
+		{% endblock %}
+	
+		{% block body %}
+			
+			
+		{% endblock %}
+
+
+	
+	<!--  Loading libraries -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</div>
+{% include 'userNav.html'%}
+{% block userNav %}
+
+{% endblock %}
+</body>
+</html>

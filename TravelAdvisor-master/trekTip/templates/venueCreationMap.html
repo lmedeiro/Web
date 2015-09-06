@@ -1,0 +1,103 @@
+
+{% block venueCreationMapScript %}
+		
+		<script type="text/javascript"
+	      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqx4ERDM8Cnl6NjtjfIqdNv2KV-gdbG4Q">
+	    </script>
+	    <script type="text/javascript">
+	    function getVenueCreationButton()
+	    {
+	    	document.getElementsByName("venueCreationInputButton")[0].value="ON";
+	    }
+	    // In the following example, markers appear when the user clicks on the map.
+		// Each marker is labeled with a single alphabetical character.
+		var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		var labelIndex = 0;
+	    
+	      function initialize() {
+	        
+		        //Set a default location if no geolocation
+		        var myLatlng1 = new google.maps.LatLng(26.824, -80.136);
+		        
+		        var mapOptions = {
+		          center: myLatlng1,
+		          mapTypeId: google.maps.MapTypeId.ROADMAP,
+		          zoom: 9
+		        };
+		        
+		        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		        
+		        var contentString = '<div id="content">'+
+					'<div id="siteNotice">'+
+				    '</div>'+
+				    '<h1 id="firstHeading" class="firstHeading">Insert {{testText}}</h1>'+
+				    '<div id="bodyContent">'+
+				    '<form method="post" style="text-align:left">'+
+				    	'<input name="venueName"  type="text" placeholder="VenueName"> <br/>'+
+						'<select name ="venueType" placeholder="type"><option>Bar</option><option>Restaurant</option><option>Club</option></select> <br/>'+
+						'<input name="venueDescription" type="text" rows="2" cols="25" placeholder="Description" value=" "> <br/>'+
+						'<input name="venueGoogleId" type="hidden" value="nothing">'+
+						'<input name="venueLat" type="hidden" value=" ">'+
+						'<input name="venueLong" type="hidden" value=" ">'+
+						'<input name="venueCreationInputButton" type="hidden" value="OFF">'+
+						'<button  onclick="getVenueCreationButton()">Register Venue</button>'+
+					'</form>'+
+				    '</div>'+
+				    '</div>';
+				    
+				var infowindow = new google.maps.InfoWindow({
+      				content: contentString
+  				});
+		   
+		     	// This event listener calls addMarker() when the map is clicked.
+  				google.maps.event.addListener(map, 'click', function(event) {
+  				//document.getElementsByName("venueGoogleId")[0].value=event.latLng;
+    			addMarker(event.latLng, map);
+    			
+  				});
+		        
+
+  				// Adds a marker to the map.
+				function addMarker(location, map) {
+	  				
+		  			// Add the marker at the clicked location, and add the next-available label
+		  			// from the array of alphabetical characters.
+		  			var marker = new google.maps.Marker({
+			    		position: location,
+			    		label: labels[labelIndex++ % labels.length],
+			    		map: map
+	  					});
+	  					
+	  					google.maps.event.addListener(marker, 'click', function() {
+    					infowindow.open(map,marker);
+    					document.getElementsByName("venueLat")[0].value=location.lat();
+    					document.getElementsByName("venueLong")[0].value=location.lng();
+  						});
+					
+  					}
+	  							            
+		        //If geolocation is available, center on map and add a marker		        
+		        if (navigator.geolocation) {
+	         		navigator.geolocation.getCurrentPosition(function (position) {
+	             		initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	             		map.setCenter(initialLocation);
+	             		
+	             		// Add a marker for geolocation
+  						addMarker(initialLocation, map);
+	         		});   
+				 } 
+				 
+				 // Add a marker at the center of the map for default location
+				 else { addMarker(myLatlng1, map);
+			  	 }
+	        }
+	    	google.maps.event.addDomListener(window, 'load', initialize);
+	    </script>
+
+{% endblock %}
+
+{%block venueCreationMap%}
+	
+   	<div id="map-canvas"></div>
+	
+{%endblock%}
